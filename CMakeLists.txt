@@ -15,7 +15,7 @@ find_package(ros_gz_sim REQUIRED)
 # find_package(<dependency> REQUIRED)
 
 install(
-  DIRECTORY launch model config
+  DIRECTORY launch model config worlds
   DESTINATION share/${PROJECT_NAME}
 )
 
