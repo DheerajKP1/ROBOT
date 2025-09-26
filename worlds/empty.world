@@ -25,6 +25,9 @@
       filename="gz-sim-contact-system"
       name="gz::sim::systems::Contact">
     </plugin>
+    <plugin filename="gz-sim-imu-system"
+      name="gz::sim::systems::Imu">
+    </plugin>
 
     <light type="directional" name="sun">
       <cast_shadows>true</cast_shadows>
@@ -104,5 +107,44 @@
         </visual>
       </link>
     </model>
+    <model name="wall">
+      <static>true</static>
+      <link name="box">
+        <pose>5 0 1 0 0 0</pose> <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.5 10.0 2.0</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Blue</name>
+            </script>
+          </material>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.5 10.0 2.0</size>
+            </box>
+          </geometry>
+        </collision>
+        <sensor name='sensor_contact' type='contact'>
+            <contact>
+                <collision>collision</collision> </contact>
+            <update_rate>10</update_rate> 
+        </sensor>
+
+        <plugin filename="gz-sim-touchplugin-system"
+              name="gz::sim::systems::TouchPlugin">
+            <target>differential_drive_robot</target>
+            <namespace>wall</namespace>
+            <time>0.001</time>
+            <enabled>true</enabled>
+          </plugin>
+        </link>
+    </model>
+
   </world>
 </sdf>

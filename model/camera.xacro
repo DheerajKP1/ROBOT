@@ -31,9 +31,7 @@
     </joint>
 
     <link name="camera_link_optical"></link>
-
-
-
+    
     <gazebo reference="camera_link">
         <material>Gazebo/Black</material>
 
