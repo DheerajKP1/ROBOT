@@ -53,6 +53,8 @@
                 </clip>
             </camera>
             <topic>camera/image_raw</topic>
+            <!-- <always_on>1</always_on> -->
+            <gz_frame_id>camera_link</gz_frame_id>
             <!-- <gz_frame_id>camera_link_optical</gz_frame_id> -->
         </sensor>
     </gazebo>

@@ -7,7 +7,7 @@ def generate_launch_description():
     package_name='mtp_robot'
     # Get the path to your configuration file
     config_dir = os.path.join(get_package_share_directory(package_name), 'config')
-    slam_params_file = os.path.join(config_dir, 'mapper_params.yaml')
+    slam_params_file = os.path.join(config_dir, 'mapper_params_online_async.yaml')
 
     # SLAM Toolbox Node
     start_async_slam_toolbox_node = Node(
@@ -15,8 +15,11 @@ def generate_launch_description():
         executable='async_slam_toolbox_node',
         name='slam_toolbox',
         output='screen',
-        parameters=[slam_params_file],
-        remappings=[('/scan', '/scan'), # Explicitly remap if needed
+        parameters=[
+            slam_params_file,
+            {'use_sim_time': True}  # <--- THIS IS THE FIX
+        ],
+        remappings=[('/scan', '/scan'), 
                     ('/tf', 'tf'),
                     ('/tf_static', 'tf_static')]
     )
@@ -27,7 +30,8 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         arguments=['-d', os.path.join(get_package_share_directory(package_name), 'rviz', 'slam.rviz')],
-        output='screen'
+        output='screen',
+        parameters=[{'use_sim_time': True}] # <-- Also a good idea to add this to RViz
     )
     
     ld = LaunchDescription()
